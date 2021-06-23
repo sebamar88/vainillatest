@@ -73,11 +73,26 @@ googleButton.addEventListener('click', (e)=>{
         })
 })
 
-// Google Login
+// Facebook Login
 const facebookButton = document.querySelector('#facebookButton');
 facebookButton.addEventListener('click', (e)=>{
     e.preventDefault();
     const provider = new firebase.auth.FacebookAuthProvider();
+    auth.signInWithPopup(provider)
+        .then(result => {
+            loginForm.reset();
+            signinModal.hide();
+        })
+        .catch(err => {
+            console.log(err)
+        })
+})
+
+// Github Login
+const githubButton = document.querySelector('#githubButton');
+githubButton.addEventListener('click', (e)=>{
+    e.preventDefault();
+    const provider = new firebase.auth.GithubAuthProvider();
     auth.signInWithPopup(provider)
         .then(result => {
             loginForm.reset();
