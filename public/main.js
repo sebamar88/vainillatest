@@ -6,7 +6,7 @@ const loginCheck = (user) => {
     if(user){
         fs.collection('users').doc(user.uid).get().then(doc=>{
             const html = `
-                <h1>Bienvenido ${doc.data().name}</h1>
+                <h1>Welcome ${doc.data().name}</h1>
                 <p>Logged in as ${user.email}</p>
             `;
             accountDetails.innerHTML = html;
@@ -102,7 +102,10 @@ facebookButton.addEventListener('click', (e)=>{
     const provider = new firebase.auth.FacebookAuthProvider();
     auth.signInWithPopup(provider)
         .then(cred => {
-            console.log(cred)
+            return fs.collection('users').doc(cred.user.uid).set({
+                email: cred.user.email,
+                name: cred.user.displayName
+            });
             
         })
         .then(result => {
@@ -121,7 +124,10 @@ githubButton.addEventListener('click', (e)=>{
     const provider = new firebase.auth.GithubAuthProvider();
     auth.signInWithPopup(provider)
         .then(cred => {
-            console.log(cred)
+            return fs.collection('users').doc(cred.user.uid).set({
+                email: cred.user.email,
+                name: cred.user.displayName
+            });
             
         })
         .then(result => {
@@ -133,23 +139,48 @@ githubButton.addEventListener('click', (e)=>{
         })
 })
 
-//Publicaciones
-const postList = document.querySelector('.posts');
-const setUpPosts = data =>{
+//Publicaciones publicas
+const postPublicList = document.querySelector('.postsPublicos');
+const setUpPublicPosts = (data) =>{
     if(data.length){
         let html = '';
         data.forEach(doc =>{
             const postData = doc.data();
-            const li = `
-            <li class="list-group-item list-group-item-action">
-                <h5>${postData.title}</h5>
-                <p>${postData.description}</p>
-            </li>`
-            html += li;
+            if(postData.visibility == "public"){
+                const li = `
+                <li class="list-group-item list-group-item-action">
+                    <h5>${postData.title}</h5>
+                    <p>${postData.description}</p>
+                    <p class="text-end">Author: ${postData.author_name}</p>
+                </li>`
+                html += li;
+            }
+        });
+        postPublicList.innerHTML = html;
+    }else{
+        postPublicList.innerHTML = `<p class="text-center">There are no posts yet, you can start writing them in the form below.</p>`
+    }
+}
+
+//Publicaciones Privadas
+const postList = document.querySelector('.posts');
+const setUpPosts = (data, userId) =>{
+    if(data.length){
+        let html = '';
+        data.forEach(doc =>{
+            const postData = doc.data();
+            if(postData.author == userId && postData.visibility != "public"){
+                const li = `
+                <li class="list-group-item list-group-item-action">
+                    <h5>${postData.title}</h5>
+                    <p>${postData.description}</p>
+                </li>`
+                html += li;
+            }            
         });
         postList.innerHTML = html;
     }else{
-        postList.innerHTML = `<p class="text-center">Login to see Posts</p>`
+        postList.innerHTML = `<p class="text-center">There are no posts yet, you can start writing them in the form below.</p>`
     }
 }
 
@@ -160,9 +191,15 @@ addPostForm.addEventListener('submit', (e)=>{
     e.preventDefault();
     const addTitle = document.querySelector('#addTitle').value
     const addDescription = document.querySelector('#addDescription').value
+    let x = document.querySelector('#addVisibility').selectedIndex;
+    let visibilityOption = document.getElementsByTagName('option')[x].value;
+    var user = firebase.auth().currentUser;
     fs.collection('posts').add({
         title: addTitle,
-        description: addDescription
+        description: addDescription,
+        author: user.uid,
+        author_name: user.displayName,
+        visibility: visibilityOption
     })
     .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
@@ -183,10 +220,12 @@ auth.onAuthStateChanged(user => {
         fs.collection('posts')
             .get()
             .then((snapshot)=>{
-                setUpPosts(snapshot.docs);
+                setUpPublicPosts(snapshot.docs)
+                setUpPosts(snapshot.docs, user.uid);
                 loginCheck(user);
             })
     }else{
+        setUpPublicPosts([])
         setUpPosts([]);
         loginCheck(user);
     }

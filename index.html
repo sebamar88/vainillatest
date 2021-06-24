@@ -42,6 +42,7 @@
             </div>
             <div class="modal-body">
                 <form action="" id="signupForm">
+                    <input placeholder="Full Name" type="text" name="name" id="signupName" class="form-control my-3">
                     <input placeholder="E-mail" type="email" name="username" id="signupEmail" class="form-control my-3">
                     <input placeholder="Password" type="password" name="password" id="signupPassword" class="form-control my-3">
                     <button type="submit" class="btn btn-success">Registrarse</button>
@@ -82,10 +83,21 @@
 
     <section>
         <div class="container p-4">
+            <div class="logged-in text-center" id="accountData"></div>
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <ul class="list-group posts">
                     </ul>
+                </div>
+            </div>
+            <div class="row logged-in mt-4">
+                <div class="col-md-6 offset-md-3 border p-3">
+                    <h3>Agrega posts</h3>
+                    <form action="" id="addForm">
+                        <input type="text" placeholder="Titulo" class="form-control my-3" id="addTitle">
+                        <input type="text" placeholder="Descripcion" class="form-control my-3" id="addDescription">
+                        <input type="submit" value="Crear Post">
+                    </form>
                 </div>
             </div>
         </div>
