@@ -1,0 +1,44 @@
+/* Buttons */
+
+.paginacion {
+	display: flex;
+	justify-content: space-between;
+}
+
+.paginacion .boton {
+	display: flex;
+	align-items: center;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	color: #fff;
+	padding: 12px 20px;
+	background: #E8864F;
+	transition: .3s ease all;
+	border-radius: 20px;
+	border: none;
+	cursor: pointer;
+}
+
+.paginacion .boton i {
+	font-size: 14px;
+}
+
+.paginacion .boton .icono-izquierda {
+	margin-right: 20px;
+}
+.paginacion .boton .icono-derecha {
+	margin-left: 20px;
+}
+
+.paginacion .boton.inactivo {
+	opacity: 0.5;
+	cursor: default;
+}
+
+.paginacion .boton.inactivo:hover {
+	background: #E8864F;
+}
+
+.paginacion .boton:hover {
+	background: #DA7136;
+}

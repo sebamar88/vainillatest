@@ -7,6 +7,8 @@
     <title>Personal Diary</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -42,9 +44,9 @@
             </div>
             <div class="modal-body">
                 <form action="" id="signupForm">
-                    <input placeholder="Full Name" type="text" name="name" id="signupName" class="form-control my-3">
-                    <input placeholder="E-mail" type="email" name="username" id="signupEmail" class="form-control my-3">
-                    <input placeholder="Password" type="password" name="password" id="signupPassword" class="form-control my-3">
+                    <input placeholder="Full Name" type="text" name="name" id="signupName" class="form-control my-3" required>
+                    <input placeholder="E-mail" type="email" name="username" id="signupEmail" class="form-control my-3" required>
+                    <input placeholder="Password" type="password" name="password" id="signupPassword" class="form-control my-3" required>
                     <button type="submit" class="btn btn-success">Registrarse</button>
                     
                 </form>
@@ -61,8 +63,8 @@
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="" id="loginForm">
@@ -72,6 +74,15 @@
                     <button class="btn btn-danger d-block w-100 my-3" id="googleButton">Login with <i class="bi-google" role="img" aria-label="Google"></i></button>
                     <button class="btn btn-primary d-block w-100 my-3" id="facebookButton">Login with <i class="bi-facebook" role="img" aria-label="Facebook"></i></button>
                     <button class="btn btn-secondary d-block w-100 my-3" id="githubButton">Login with <i class="bi-github" role="img" aria-label="GitHub"></i></button>
+                    <div class="d-flex justify-content-center">
+                        <div class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="d-flex">
+                              <div class="toast-body" id="errorLogin">
+                              </div>
+                              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -85,17 +96,18 @@
         <div class="container p-4">
             <div class="logged-in text-center" id="accountData"></div>
             <div class="row">
-                <h3 class="logged-in text-center">Post Publicos</h3>
-                <div class="col-md-6 offset-md-3">
+                <div class="col-lg-8 offset-lg-2">
                     <p class="text-center logged-out">Login to see Posts</p>
                     <ul class="list-group postsPublicos">
                     </ul>
+                    <!-- <nav class="paginacion mt-4">
+                        <button type="button" class="boton prevPagePublic" href="#" id="botonAnterior"><i class="icono-izquierda fas fa-chevron-left"></i> Previous Page</button>
+                        <button type="button" class="boton nextPagePublic" href="#" id="botonSiguiente">Next Page <i class="icono-derecha fas fa-chevron-right"></i></button>
+                    </nav> -->
                 </div>
             </div>
             <div class="row mt-3">
-                <h3 class="logged-in text-center">Post Privados</h3>
-                <div class="col-md-6 offset-md-3">
-                    <p class="text-center logged-out">Login to see Posts</p>
+                <div class="col-lg-8 offset-lg-2">
                     <ul class="list-group posts">
                     </ul>
                 </div>
@@ -104,8 +116,8 @@
                 <div class="col-md-6 offset-md-3 border p-3">
                     <h3>Add posts</h3>
                     <form action="" id="addForm">
-                        <input type="text" placeholder="Title" class="form-control my-3" id="addTitle">
-                        <textarea placeholder="Content" class="form-control my-3" id="addDescription"></textarea>
+                        <input type="text" placeholder="Title" class="form-control my-3" id="addTitle" required>
+                        <textarea placeholder="Content" class="form-control my-3" id="addDescription" required></textarea>
                         <select class="form-control my-3" name="visibility" id="addVisibility">
                             <option value="public">Public</option>
                             <option value="private">Private</option>
